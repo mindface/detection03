@@ -1,24 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import { PartsFooter } from './components/PartsFooter'
+import { PartsHeader } from './components/PartsHeader'
+import { ContentPoseDetection } from './components/ContentPoseDetection'
+import { ContentPoseTree } from './components/ContentPoseTree'
+import { DataProvider } from "./context/data";
+
+
 function App() {
+  const [tab, setTab] = useState("movie");
+
+  const tabAction = (id: string) => {
+    setTab(id);
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <DataProvider>
+        <PartsHeader tabAction={tabAction} />
+        {tab === 'movie' && <ContentPoseDetection />}
+        {tab === 'data' && <ContentPoseTree />}
+        {tab === 'selectView' && <ContentPoseTree />}
+        <PartsFooter />
+      </DataProvider>
     </div>
   );
 }
